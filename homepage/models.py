@@ -9,6 +9,6 @@ class Product(models.Model):
 	image = models.ImageField(upload_to="product",blank=True)
 	product_tags = models.TextField(blank=True)
 	#rating
+	buyer_list = models.TextField(blank=True)
 	def __str__(self):
 		return self.name
-		

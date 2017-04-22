@@ -113,25 +113,72 @@
       </div>
     </div>
   </div>
-  <div>
-   <div class="card">
-      <div class="container-fliud">
-        <div class="wrapper row">
-        <h2>Additional Recommendation</h2>
-          <a href="/homepage/product/{{recommendation.name}}">
-            <div class="thumbnail col-md-4">
-              <img src="{{ MEDIA_URL }}{{ recommendation.image }}">
+  {% if also %}
+  <h3>Customers also bought</h3>
+  <div class="jumbotron">   
+      <section id="products">
+      <div class="row">
+      {% for x in also %}
+        
+        <div class="col-md-3">
+          <a href="/homepage/product/{{x.name}}">
+            <div class="thumbnail">
+              <img src="{{ MEDIA_URL }}{{ x.image }}">
               <div class="caption">
-                <h4>{{recommendation.name}}</h4>
-                <h4 >Rs.{{recommendation.price}}</h4>
+                <h4>{{x.name}}</h4>
+                <h4 >Rs.{{x.price}}</h4>
                 
               </div>
             </div> 
           </a>
         </div>
-      </div>
+
+        <!-- if last column in row -->
+        {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+       </div>
+       
+       <div class="row">
+          
+        {% endif %}
+
+      {% endfor %}
+
+      </section>
     </div>
-  </div>
+  {% endif %}
+  <h3>Additional Recommendations</h3>
+   <div class="jumbotron">   
+      <section id="products">
+      <div class="row">
+      {% for x in recommendations %}
+        
+        <div class="col-md-3">
+          <a href="/homepage/product/{{x.name}}">
+            <div class="thumbnail">
+              <img src="{{ MEDIA_URL }}{{ x.image }}">
+              <div class="caption">
+                <h4>{{x.name}}</h4>
+                <h4 >Rs.{{x.price}}</h4>
+                
+              </div>
+            </div> 
+          </a>
+        </div>
+
+        <!-- if last column in row -->
+        {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+       </div>
+       
+       <div class="row">
+          
+        {% endif %}
+
+      {% endfor %}
+
+      </section>
+      
+
+    </div>
   </div>
   </body>
   </html>

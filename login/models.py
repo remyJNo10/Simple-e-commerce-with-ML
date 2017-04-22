@@ -20,11 +20,4 @@ post_save.connect(create_user_profile, sender=User)
 
 class History(models.Model):
 	User = models.ForeignKey(User)
-	Product = models.ForeignKey(Product)
-	# purchase date
-	date = models.DateTimeField('date purchase',blank=True)
-
-	def __str__(self):
-		date = self.date
-		#date = date[0:10]
-		return '{} has bought {}  '.format(self.User.username,self.Product.name)
+	bought_items = models.TextField(blank=True)	

@@ -80,8 +80,44 @@
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </nav>
+    {% if recommendations %}
+    <h3> Based on your history </h3>
+    <h3>Additional Recommendations</h3>
+   <div class="jumbotron">   
+      <section id="products">
+      <div class="row">
+      {% for x in recommendations %}
+        
+        <div class="col-md-3">
+          <a href="/homepage/product/{{x.name}}">
+            <div class="thumbnail">
+              <img src="{{ MEDIA_URL }}{{ x.image }}">
+              <div class="caption">
+                <h4>{{x.name}}</h4>
+                <h4 >Rs.{{x.price}}</h4>
+                
+              </div>
+            </div> 
+          </a>
+        </div>
 
+        <!-- if last column in row -->
+        {% if forloop.counter|divisibleby:"4" and not forloop.last %}
+       </div>
+       
+       <div class="row">
+          
+        {% endif %}
+
+      {% endfor %}
+
+      </section>
+      
+
+    </div>
+    {% endif %}
       <!-- Main component for a primary marketing message or call to action -->
+    
     <div class="jumbotron">	 
       <section id="products">
       <div class="row">
