@@ -12,12 +12,15 @@ class Customer(models.Model):
 		return 'Profile of user: {}'.format(self.user.username)
 
 #To populate when a user is registered by admin page
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-#used signal 
-post_save.connect(create_user_profile, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         UserProfile.objects.create(user=instance)
+# #used signal 
+# post_save.connect(create_user_profile, sender=User)
 
 class History(models.Model):
 	User = models.ForeignKey(User)
-	bought_items = models.TextField(blank=True)	
+	bought_items = models.TextField(blank=True)
+
+	def __str__(self):
+		return '{}'.format(self.User.username)	

@@ -18,7 +18,7 @@ def ShowHomepage(request):
 	recommendations = set()
 	if history.exists():
 		history = history[0]
-		for i in history.bought_items.split(",")[:-4]:
+		for i in history.bought_items.split(",")[-4:]:
 			product = get_object_or_404(Product,name = i)
 			all_products = Product.objects.all()
 			all_product_tags = [([x.strip().lower() for x in item.product_tags.split(',')],item.name) for item in all_products]
@@ -53,17 +53,21 @@ def ShowProduct(request,name):
 		rec.append(get_object_or_404(Product, name=i))
 	print("loop")
 	customers_also_bought = []
-	e = History.objects.all()
-	e = [x.bought_items for x in e]
-	user = request.user
-	curr = History.objects.filter(User=user)[0].bought_items
-	e = [x for x in e if x!=curr]
-	e = [x for x in e if product.name in x ]
-	if len(e) != 0:
-		g = randint(0,len(e)-1)
-		print(g)
-		print(e[g])
-		customers_also_bought = [get_object_or_404(Product, name=d) for d in e[g]]
+	if History.objects.all().exists():
+		e = History.objects.all()
+		e = [x.bought_items for x in e]
+		user = request.user
+		h = History.objects.filter(User=user)
+		if h.exists():
+			curr = h[0].bought_items
+			e = [x for x in e if x!=curr]
+			e = [x for x in e if product.name in x ]
+			if len(e) != 0:
+				g = randint(0,len(e)-1)
+				print(e)
+				# print(e[g])
+				customers_also_bought = [Product.objects.filter(name=d)[0] for d in e[g].split(",") if Product.objects.filter(name=d).exists()]
+	# print(customers_also_bought)
 	print("render")
 	return render(request, "homepage/product.html",{'product' : product, "recommendations" : rec, "also":customers_also_bought})
 
